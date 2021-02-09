@@ -18,7 +18,7 @@
 
   <build_depend>angles</build_depend>
   <build_depend>tf2_geometry_msgs</build_depend>
-
+  <depend>arlo_navigation</depend>
   <depend>costmap_2d</depend>
   <depend>dynamic_reconfigure</depend>
   <depend>geometry_msgs</depend>

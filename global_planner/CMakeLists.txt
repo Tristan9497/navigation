@@ -22,8 +22,9 @@ generate_dynamic_reconfigure_options(
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES ${PROJECT_NAME} 
   CATKIN_DEPENDS
+    arlo_navigation
     costmap_2d
     dynamic_reconfigure
     geometry_msgs

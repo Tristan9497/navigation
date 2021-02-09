@@ -46,6 +46,8 @@
 #include <global_planner/gradient_path.h>
 #include <global_planner/quadratic_calculator.h>
 
+#include "arlo_navigation/goalnotfound.h"
+
 //register this planner as a BaseGlobalPlanner plugin
 PLUGINLIB_EXPORT_CLASS(global_planner::GlobalPlanner, nav_core::BaseGlobalPlanner)
 
@@ -218,6 +220,10 @@ bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geom
 bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geometry_msgs::PoseStamped& goal,
                            double tolerance, std::vector<geometry_msgs::PoseStamped>& plan) {
     boost::mutex::scoped_lock lock(mutex_);
+    ros::NodeHandle n;
+    ros::ServiceClient client = n.serviceClient<arlo_navigation::goalnotfound>("posefinder");
+	arlo_navigation::goalnotfoundRequest req;
+	arlo_navigation::goalnotfoundResponse res;
     if (!initialized_) {
         ROS_ERROR(
                 "This planner has not been initialized yet, but it is being used, please call initialize() before use");
@@ -227,7 +233,7 @@ bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geom
     //clear the plan, just in case
     plan.clear();
 
-    ros::NodeHandle n;
+
     std::string global_frame = frame_id_;
 
     //until tf can handle transforming things that are way in the past... we'll require the goal to be in our global frame
@@ -309,7 +315,9 @@ bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geom
             ROS_ERROR("Failed to get a plan from potential when a legal potential was found. This shouldn't happen.");
         }
     }else{
-        ROS_ERROR("Failed to get a plan. Mosdain");
+    	client.call(req,res);
+
+        ROS_ERROR("Failed to get a plan. Adjusted Goal dist to %f",res.result);
     }
 
     // add orientations if needed
