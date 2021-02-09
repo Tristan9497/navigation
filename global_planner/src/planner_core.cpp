@@ -309,7 +309,7 @@ bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geom
             ROS_ERROR("Failed to get a plan from potential when a legal potential was found. This shouldn't happen.");
         }
     }else{
-        ROS_ERROR("Failed to get a plan.");
+        ROS_ERROR("Failed to get a plan. Mosdain");
     }
 
     // add orientations if needed
