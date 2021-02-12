@@ -315,9 +315,9 @@ bool GlobalPlanner::makePlan(const geometry_msgs::PoseStamped& start, const geom
             ROS_ERROR("Failed to get a plan from potential when a legal potential was found. This shouldn't happen.");
         }
     }else{
-    	client.call(req,res);
+    	//client.call(req,res);
 
-        ROS_ERROR("Failed to get a plan. Adjusted Goal dist to %f",res.result);
+        ROS_ERROR("Failed to get a plan");
     }
 
     // add orientations if needed
